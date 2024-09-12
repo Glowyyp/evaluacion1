@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Perfil de Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="perfilForm" (ngSubmit)="guardar()" >
+    
+    <ion-item>
+      <ion-label  position="stacked" >Usuario</ion-label>
+      <ion-input formControlName="nombre" placeholder="Ingrese nombre de usuario"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label  position="stacked" >Edad</ion-label>
+      <ion-input type="number" formControlName="edad" placeholder="Ingrese su Edad"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input type="email" formControlName="email" placeholder="ejemplo@gmail.com"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label  position="stacked" >Telefono</ion-label>
+      <ion-input type="tel" formControlName="numero" placeholder="912345678"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label  position="stacked" >RUT</ion-label>
+      <ion-input formControlName="rut" placeholder="Ingrese rut sin guion ni punto"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label  position="stacked" >Dirección</ion-label>
+      <ion-input formControlName="direccion" placeholder="Ingrese direccion"></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit">Guardar Cambios</ion-button>
+    <ion-button expand="full" color="danger" (click)='volver()' >Volver</ion-button>
+  </form>
+</ion-content>

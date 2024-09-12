@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Programar Viaje</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="container-pv">
+
+    <ion-item>
+      <div class="gap">
+        <ion-label position="stacked">Nombre:</ion-label>
+        <ion-input type="text" [(ngModel)]="nombreConductor" placeholder="Juan" ></ion-input>
+      </div>
+    </ion-item>
+    
+    <ion-item>
+      <div class="gap">
+        <ion-label position="stacked">Apellido:</ion-label>
+        <ion-input type="text" [(ngModel)]="apellidoConductor" placeholder="Perez"></ion-input>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <div class="gap">
+        <ion-label position="stacked">Patente del Vehiculo:</ion-label>
+        <ion-input type="text" [(ngModel)]="patente" placeholder="XXX 1111"></ion-input>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <div class="gap">
+        <ion-label position="stacked">Licencia de conducir:</ion-label>
+        <ion-input type="file"></ion-input>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <div class="gap">
+        <ion-label position="stacked">Capacidad de Pasajeros</ion-label>
+        <ion-input type="number" [(ngModel)]="capacidad"></ion-input>
+      </div>
+    </ion-item>
+  
+    <ion-item>
+      <div class="gap">
+        <ion-label position="stacked">Costo por Pasajero</ion-label>
+        <ion-input type="number" [(ngModel)]="costo"></ion-input>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <div class="gap">
+        <ion-label position="stacked">Informacion adicional</ion-label>
+        <ion-input type="text" placeholder="descripcion del Vehiculo" [(ngModel)]="info"></ion-input>
+      </div>
+    </ion-item>
+  
+    <ion-button expand="block" (click)="agendar()">Programar</ion-button>
+    <ion-button expand="block" color="danger"  (click)="volver()">cancelar</ion-button>
+    
+  </div>
+  
+</ion-content>
+

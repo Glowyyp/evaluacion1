@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalles del Viaje</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" shape="round" fill="solid" (click)="cerrar()">Volver</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content  >
+  
+  <div style=" display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  ">
+  <ion-card >
+    
+    <ion-card-header>
+      <ion-card-title>{{viaje.nombre}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <img src="../../assets/icon/download.jpeg" alt="">
+
+      <p><strong>Capacidad: {{ viaje.capacidad }} personas</strong></p>
+      <p><strong>Costo por persona:</strong> ${{ viaje.costo }}</p>
+      <p><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
+      <p><strong>Patente:</strong> {{viaje.placa}}</p>
+      <br><br>
+      <h2 style="display: flex; justify-content: center;" ><strong>Ubicacion</strong></h2>
+    </ion-card-content>
+    
+  </ion-card>
+    </div>
+    <div style="display: flex; justify-content: center;">
+      <div style="width: 300px; height: 200px;">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.262024763673!2d-70.5813727243029!3d-33.59850527333112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d7037854df81%3A0x893f58a1479b8f82!2sDuoc%20UC%3A%20Sede%20Puente%20Alto!5e0!3m2!1ses-419!2scl!4v1725833309676!5m2!1ses-419!2scl" 
+          width="100%" 
+          height="100%">
+        </iframe>
+      </div>
+    </div>
+
+    <ion-card>  <ion-button expand="block" (click)="confirmar()" >Confirmar Viaje</ion-button></ion-card>
+
+
+</ion-content>

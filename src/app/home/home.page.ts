@@ -1,13 +1,59 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent],
+  imports: [IonicModule, CommonModule, FormsModule,ReactiveFormsModule]
 })
 export class HomePage {
-  constructor() {}
+
+  constructor(private router: Router) {}
+
+  public alertButtons = [
+    {
+      text: 'Cancel',
+      role: 'cancel',
+      handler: () => {
+        console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'aceptar',
+      role: 'confirm',
+      handler: () => {
+        console.log('Alert confirmed');
+      },
+    },
+  ];
+
+  setResult(ev:any) {
+    console.log(`Dismissed with role: ${ev.detail.role}`);
+  }
+
+
+  perfil() {
+      this.router.navigateByUrl('perfil')
+  }
+
+  viajesdisp() {
+    this.router.navigateByUrl('/viajesdisp');
+  }
+
+  programar(){
+    this.router.navigateByUrl('/programarviaje');
+  }
+
+  cerrar(){
+    this.router.navigateByUrl('/login');
+  }
+
+  sobre(){
+    this.router.navigateByUrl('/sobre')
+  }
 }

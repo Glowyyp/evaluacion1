@@ -1,0 +1,34 @@
+<meta name="apple-mobile-web-app-capable" content="yes">
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+ 
+  <ion-content>
+    <div class="logincaja">
+
+        <ion-card>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input type="password" [(ngModel)]="contrasenia"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" (click)="login()">Login</ion-button>
+        <ion-button expand="block" color="light" (click)="goreset()">Olvide mi contreña</ion-button>
+
+        </ion-card>
+    </div>
+
+
+  </ion-content>
+ 
+

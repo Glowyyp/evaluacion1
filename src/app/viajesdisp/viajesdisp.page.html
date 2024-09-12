@@ -1,0 +1,23 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Viajes Disponibles</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let viaje of viajes">
+    <img alt="imagen" [src]="viaje.imagen" />
+    <ion-card-header>
+      <ion-card-title>Viaje con capacidad de: {{ viaje.capacidad }} personas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Costo por persona: ${{ viaje.costo }}
+    </ion-card-content>
+    <ion-button expand="block" id="present-alert" (click)="solicitarviaje(viaje)">Solicitar Viaje</ion-button>
+
+  </ion-card>
+
+  <ion-card> <ion-button expand='block' color="danger" (click)="volver()">Volver</ion-button>  </ion-card>
+ 
+</ion-content>
