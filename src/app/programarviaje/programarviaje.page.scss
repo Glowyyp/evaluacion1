@@ -1,4 +1,4 @@
-// Container styling
+
 .container-pv {
   padding: 20px;
   display: flex;
@@ -6,20 +6,20 @@
   align-items: center;
 }
 
-// Styling for form elements
+
 ion-item {
   width: 100%;
   max-width: 400px;
   margin: 8px 0;
-  --background: #2b2b2b; // Dark background for input items
-  --color: white;        // Text color to contrast with the dark background
+  --background: #2b2b2b; 
+  --color: white;        
 }
 
 ion-label {
-  color: #c1c1c1; // Light color for labels to contrast against dark background
+  color: #c1c1c1; 
 }
 
-// Button group styling
+
 .button-group {
   width: 100%;
   max-width: 400px;
@@ -29,7 +29,7 @@ ion-label {
   gap: 10px;
 }
 
-// Map styling
+
 #map {
   width: 100%;
   max-width: 400px;
@@ -52,7 +52,7 @@ ion-label {
   border: 1px solid #ccc;
 }
 
-// Button styling
+
 ion-button {
   --border-radius: 8px;
   --background: #4a90e2;
