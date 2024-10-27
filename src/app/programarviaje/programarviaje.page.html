@@ -44,17 +44,16 @@
     </ion-item>
 
     <ion-item>
-      <div class="gap ">
-        
-        
-          <ion-button expand="block" (click)="calculaRuta">Indicaciones del trayecto</ion-button>
-          <div id="map"></div>
-          <div id="trayecto"></div>
-        
-
-
-      </div></ion-item>
+      <div class="gap">
+        <ion-label position="stacked"> Destino </ion-label>
+        <input type="text" id="autocomplete">
+        <ion-button expand="block" (click)="calculaRuta()">Indicaciones del trayecto</ion-button>
+        <div id="map" style="height: 300px; margin-top: 20px;"></div>
+        <div id="trayecto" style="height: 200px; margin-top: 10px; overflow-y: auto;"></div>
+      </div>
+    </ion-item>
   
+    
     <ion-button expand="block" (click)="agendar()">Programar</ion-button>
     <ion-button expand="block" color="danger"  (click)="volver()">cancelar</ion-button>
     

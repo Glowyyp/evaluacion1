@@ -52,6 +52,7 @@ export class ProgramarViajePage implements OnInit {
         ) {
        
         alert(`Su viaje ha sido programado con una capacidad de ${this.capacidad} pasajeros y un costo de $${this.costo} por pasajero`);
+        this.router.navigate(['/home'])
     } else {
       if(this.capacidad <= 0){
         alert('ingrese una capacidad valida');
