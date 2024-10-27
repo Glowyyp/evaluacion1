@@ -33,4 +33,9 @@ export class LoginPage {
   goreset() {
     this.router.navigateByUrl('/resetcontrasenia');
   }
+
+ goregistro(){
+  this.router.navigateByUrl('/registro')
+
+ }
 }

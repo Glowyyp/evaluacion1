@@ -31,13 +31,6 @@
 
     <ion-item>
       <div class="gap">
-        <ion-label position="stacked">Licencia de conducir:</ion-label>
-        <ion-input type="file"></ion-input>
-      </div>
-    </ion-item>
-
-    <ion-item>
-      <div class="gap">
         <ion-label position="stacked">Capacidad de Pasajeros</ion-label>
         <ion-input type="number" [(ngModel)]="capacidad"></ion-input>
       </div>
@@ -51,11 +44,16 @@
     </ion-item>
 
     <ion-item>
-      <div class="gap">
-        <ion-label position="stacked">Informacion adicional</ion-label>
-        <ion-input type="text" placeholder="descripcion del Vehiculo" [(ngModel)]="info"></ion-input>
-      </div>
-    </ion-item>
+      <div class="gap ">
+        
+        
+          <ion-button expand="block" (click)="calculaRuta">Indicaciones del trayecto</ion-button>
+          <div id="map"></div>
+          <div id="trayecto"></div>
+        
+
+
+      </div></ion-item>
   
     <ion-button expand="block" (click)="agendar()">Programar</ion-button>
     <ion-button expand="block" color="danger"  (click)="volver()">cancelar</ion-button>

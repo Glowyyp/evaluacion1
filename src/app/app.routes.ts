@@ -19,7 +19,11 @@ export const routes: Routes = [
   {
     path: 'sobre',
     loadComponent: () => import('./sobre/sobre.page').then( m => m.SobrePage)
+  },  {
+    path: 'registro',
+    loadComponent: () => import('./registro/registro.page').then( m => m.RegistroPage)
   }
+
 ];
 
 @NgModule({
