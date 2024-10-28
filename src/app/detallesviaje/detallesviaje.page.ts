@@ -16,6 +16,12 @@ declare var google: any;
 })
 export class DetallesviajePage implements OnInit {
   @Input() viaje!: Trip; 
+  
+  
+  distance: number = 0;
+  duration: string = '';
+  totalCost: number = 0;
+  costPerPerson: number = 0;
 
   directionsService: any;
   directionsRenderer: any;
@@ -44,7 +50,6 @@ export class DetallesviajePage implements OnInit {
       this.directionsRenderer.setMap(map);
       this.directionsRenderer.setPanel(trayectoElement);
 
-      
       const request = {
         origin: this.viaje.origin,
         destination: this.viaje.destination,
@@ -54,6 +59,14 @@ export class DetallesviajePage implements OnInit {
       this.directionsService.route(request, (result: any, status: any) => {
         if (status === google.maps.DirectionsStatus.OK) {
           this.directionsRenderer.setDirections(result);
+
+          const route = result.routes[0];
+          this.distance = route.legs[0].distance.value / 1000; // Convert meters to km
+          this.duration = route.legs[0].duration.text;
+
+          const costPerKm = 0.5; // For example, 0.5 currency units per km
+          this.totalCost = this.distance * costPerKm;
+          this.costPerPerson = this.totalCost / this.viaje.capacidad;
         } else {
           alert('Error al calcular la ruta');
         }
@@ -73,6 +86,17 @@ export class DetallesviajePage implements OnInit {
       this.modalCtrl.dismiss(this.viaje);
     } else {
       alert('Capacidad agotada');
+    }
+  }
+  cancelarViaje() {
+    const currentTime = new Date();
+    const viajeTime = new Date(this.viaje.inicio); 
+
+    if (viajeTime.getTime() - currentTime.getTime() >= 30 * 60 * 1000) {
+      alert('Viaje cancelado con éxito.');
+      this.modalCtrl.dismiss(null, 'cancel');
+    } else {
+      alert('No se puede cancelar el viaje con menos de 30 minutos de anticipación.');
     }
   }
 }

@@ -12,6 +12,8 @@ export interface Trip {
   origin: { lat: number; lng: number }; 
   destination: string; 
   routeDirections: any; 
+  inicio: string; 
+  costoPorKm: number; 
 }
 
 @Injectable({

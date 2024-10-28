@@ -11,13 +11,16 @@
   <div class="trip-info">
     <h2>{{ viaje.nombreConductor }} {{ viaje.apellidoConductor }}</h2>
     <p><strong>Capacidad:</strong> {{ viaje.capacidad }}</p>
-    <p><strong>Costo:</strong> ${{ viaje.costo }}</p>
+    <p><strong>Costo Total:</strong> ${{ totalCost }}</p>
+    <p><strong>Costo por Persona:</strong> ${{ costPerPerson }}</p>
     <p><strong>Destino:</strong> {{ viaje.destination }}</p>
-    <p><strong>Descripción:</strong> {{ viaje.info }}</p>
+    <p><strong>Distancia Estimada:</strong> {{ distance }} km</p>
+    <p><strong>Duración Estimada:</strong> {{ duration }}</p>
   </div>
 
   <div id="map" style="height: 300px; margin-top: 20px;"></div>
   <div id="trayecto" style="height: 150px; margin-top: 10px; overflow-y: auto;"></div>
 
   <ion-button expand="block" color="success" (click)="confirmar()">Confirmar Viaje</ion-button>
+  <ion-button expand="block" color="danger" (click)="cancelarViaje()">Cancelar Viaje</ion-button>
 </ion-content>

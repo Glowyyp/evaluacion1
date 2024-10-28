@@ -43,14 +43,15 @@ export class ViajesDispPage implements OnInit {
       component: DetallesviajePage,
       componentProps: { viaje }
     });
-
+  
     modal.onDidDismiss().then((result) => {
-      const viajeActualizado = result.data; 
-      if (viajeActualizado) {
-        this.listaActualizada(viajeActualizado);
+      if (result.role === 'cancel') {
+        this.viajes = this.viajes.filter(trip => trip.patente !== viaje.patente);
+      } else if (result.data) {
+        this.listaActualizada(result.data);
       }
     });
-
+  
     return await modal.present();
   }
   
@@ -83,6 +84,19 @@ export class ViajesDispPage implements OnInit {
       this.directionsService.route(request, (result: any, status: any) => {
         if (status === google.maps.DirectionsStatus.OK) {
           this.directionsRenderer.setDirections(result);
+
+          const route = result.routes[0];
+          const distance = route.legs[0].distance.value / 1000; 
+          const duration = route.legs[0].duration.text;
+          
+          
+          const costPerKm = viaje.costoPorKm || 0.5;
+          const totalCost = distance * costPerKm;
+          const costPerPerson = totalCost / viaje.capacidad;
+  
+          alert(`Distancia: ${distance} km\nDuración estimada: ${duration}\nCosto total: ${totalCost.toFixed(2)}\nCosto por persona: ${costPerPerson.toFixed(2)}`);
+      
+
         } else {
           alert('Error al calcular la ruta');
           console.error("calculo de ruta fallo con el estado de : ", status);

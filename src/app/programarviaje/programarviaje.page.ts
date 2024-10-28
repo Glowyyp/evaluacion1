@@ -21,6 +21,8 @@ export class ProgramarViajePage implements OnInit {
   apellidoConductor: string = '';
   patente: string = '';
   info: string = '';
+  costoPorKm: number= 0;
+  inicio = new Date().toISOString();
 
  
   mapa: any;
@@ -31,6 +33,7 @@ export class ProgramarViajePage implements OnInit {
   directionsRenderer: any;
   routeDirections: any;  
   destinationAddress: string = ''; 
+
 
   constructor(private router: Router, private storageService: StorageService) { }
 
@@ -83,7 +86,12 @@ export class ProgramarViajePage implements OnInit {
         info: this.info,
         origin: this.puntoreferencia,              
         destination: this.destinationAddress,      
-        routeDirections: this.routeDirections  
+        routeDirections: this.routeDirections, 
+        costoPorKm: this.costoPorKm,
+        inicio: this.inicio
+
+         
+        
       };
 
       await this.storageService.agregarViaje(viaje);
