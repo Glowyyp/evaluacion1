@@ -93,7 +93,7 @@ export class DetallesviajePage implements OnInit {
 
     if (horaViaje.getTime() - horaActual.getTime() >= 30 * 60 * 1000) {
       alert('Viaje cancelado con éxito.');
-      this.modalCtrl.dismiss(null, 'cancel');
+      this.modalCtrl.dismiss(null, 'cancelar');
     } else {
       alert('No se puede cancelar el viaje con menos de 30 minutos de anticipación.');
     }

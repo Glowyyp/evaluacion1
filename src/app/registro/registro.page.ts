@@ -3,13 +3,12 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
+import { StorageService } from 'src/app/services/registro.service';
 
-import { StorageService } from 'src/app/storage.service';
-
-interface Persona{
+interface Persona {
   username: string;
   password: string;
-  userRole: string;
+  rolusuario: string;
   identificador: string;
 }
 
@@ -18,49 +17,34 @@ interface Persona{
   templateUrl: './registro.page.html',
   styleUrls: ['./registro.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule,ReactiveFormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
 })
 export class RegistroPage {
-  
-  
-  username:string='';
-  password:string=''; 
-  userRole:any='';
+  username: string = '';
+  password: string = ''; 
+  rolusuario: any = '';
+  personas: Persona[] = [];
 
-  // Variables para leer parametros
-
-  par_username: string='';  
-  par_password: string='';  
-  
-  // Variables para el crud
-  personas:Persona[]=[];
-  currentId:string=""; 
-
-  constructor(private router: Router,
-              private storageservice: StorageService,
-              private navCtrl: NavController
-  ) {  
-  }
+  constructor(
+    private router: Router,
+    private storageService: StorageService,
+    private navCtrl: NavController
+  ) {}
 
   async registro() {
-    const nuevoRegistro={
-      username:this.username,
-      password:this.password,
-      userRole:this.userRole,
-      identificador:Date.now().toString() //Genera un id
-    }
-    // Agregar a la nueva persona al arreglo 
-    this.personas.push(nuevoRegistro);
+    const nuevoRegistro = {
+      username: this.username,
+      password: this.password,
+      rolusuario: this.rolusuario,
+      identificador: Date.now().toString()  
+    };
 
-    let resp = this.storageservice.registro('personas', nuevoRegistro);
-
-    // console.log('Usuario registrado:', { username: this.username, role: this.userRole });
+    await this.storageService.registroUsuario(nuevoRegistro);
     alert('Usuario registrado exitosamente');
     this.router.navigate(['/login']);
-  
-  } // Fin de registro
+  }
 
-    volver() {
-      this.navCtrl.navigateForward('/login'); 
-    }
+  volver() {
+    this.navCtrl.navigateForward('/login'); 
+  }
 }

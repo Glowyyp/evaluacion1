@@ -65,12 +65,12 @@ export class StorageService {
     await this.set(this.TRIPS_KEY, trips);  
   }
 
-  async viajeActualizado(updatedTrip: Trip) {
+  async viajeActualizado(viajeActualizado: Trip) {
     const trips = await this.allViajes();
-    const index = trips.findIndex(trip => trip.patente === updatedTrip.patente);
+    const index = trips.findIndex(trip => trip.patente === viajeActualizado.patente);
     
     if (index !== -1) {
-      trips[index] = updatedTrip;
+      trips[index] = viajeActualizado;
       await this.set(this.TRIPS_KEY, trips);
   }
 }}

@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalles del Viaje</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Direcciones del Viaje</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Origen:</strong> Latitud: {{ viaje.origin.lat }}, Longitud: {{ viaje.origin.lng }}</p>
+      <p><strong>Destino:</strong> {{ viaje.destino }}</p>
+      <p><strong>Distancia:</strong> {{ viaje.routeDirections.distance }}</p>
+      <p><strong>Duración Estimada:</strong> {{ viaje.routeDirections.duration }}</p>
+      <p><strong>Costo Total:</strong> ${{ totalCost.toFixed(2) }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <div #map style="height: 300px; margin-top: 20px;"></div>
+  <div id="trayecto" style="height: 200px; margin-top: 10px; overflow-y: auto;"></div>
+
+  <ion-button expand="block" color="primary" (click)="finishTrip()">Terminar Viaje</ion-button>
+
+  <ion-card *ngIf="showQR">
+    <ion-card-header>
+      <ion-card-title>Total a Pagar</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Total a Pagar: ${{ totalCost.toFixed(2) }}</p>
+      <qrcode [qrdata]="totalCost.toString()" [width]="150"></qrcode>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

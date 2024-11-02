@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { StorageService, Trip } from '../services/storage.service';
+import { ModalController } from '@ionic/angular/standalone';
+import { ViajeDetallePage } from '../viajedetalle/viajedetalle.page';
 
 declare var google: any;
 
@@ -33,7 +35,7 @@ export class ProgramarViajePage implements OnInit {
   direccionesRuta: any;
   direccionDestino: string = '';
 
-  constructor(private router: Router, private storageService: StorageService) { }
+  constructor(private router: Router, private storageService: StorageService, private modalCtrl: ModalController) { }
 
   ngOnInit() {
     this.dibujarMapa();
@@ -90,8 +92,16 @@ export class ProgramarViajePage implements OnInit {
 
       await this.storageService.agregarViaje(viaje);
       alert(`Su viaje ha sido programado con una capacidad de ${this.capacidad} pasajeros y un costo de $${this.costo} por pasajero.`);
-      this.router.navigate(['/viajesdisp']);
+      this.router.navigate(['/home']);
       
+      const modal = await this.modalCtrl.create({
+        component: ViajeDetallePage,
+        componentProps: { viaje: viaje }
+      });
+
+      await modal.present();
+
+
     } else {
       this.mostrarErrores();
     }
