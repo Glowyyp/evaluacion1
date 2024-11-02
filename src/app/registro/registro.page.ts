@@ -9,38 +9,25 @@ import { IonicModule, NavController } from '@ionic/angular';
   templateUrl: './registro.page.html',
   styleUrls: ['./registro.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule,ReactiveFormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
 })
 export class RegistroPage {
   
-  
-  username!: string;
-  password!: string; 
-  userRole!: string;
- 
+  nombreUsuario!: string;
+  contrasenia!: string; 
+  rolUsuario!: string;
 
   constructor(private router: Router,
               private navCtrl: NavController
-  ) {
-
-
-    
-  }
-
-  
+  ) {}
 
   registro() {
-    console.log('Usuario registrado:', { username: this.username, role: this.userRole });
+    console.log('Usuario registrado:', { nombreUsuario: this.nombreUsuario, rol: this.rolUsuario });
     alert('Usuario registrado exitosamente');
     this.router.navigate(['/login']);
   }
 
-
-    volver() {
-      this.navCtrl.navigateForward('/login'); 
-    }
-  
-
-  
-
+  volver() {
+    this.navCtrl.navigateForward('/login'); 
+  }
 }

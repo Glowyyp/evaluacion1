@@ -17,11 +17,10 @@ declare var google: any;
 export class DetallesviajePage implements OnInit {
   @Input() viaje!: Trip; 
   
-  
-  distance: number = 0;
-  duration: string = '';
-  totalCost: number = 0;
-  costPerPerson: number = 0;
+  distancia: number = 0;
+  duracion: string = '';
+  costoTotal: number = 0;
+  costoPorPersona: number = 0;
 
   directionsService: any;
   directionsRenderer: any;
@@ -31,42 +30,42 @@ export class DetallesviajePage implements OnInit {
   ) {}
 
   ngOnInit() { 
-    this.iniciarMap();
+    this.iniciarMapa();
   }
 
-  iniciarMap() {
-    const mapElement = document.getElementById('map');
-    const trayectoElement = document.getElementById('trayecto');
+  iniciarMapa() {
+    const elementoMapa = document.getElementById('map');
+    const elementoTrayecto = document.getElementById('trayecto');
 
-    if (mapElement && trayectoElement) {
+    if (elementoMapa && elementoTrayecto) {
       this.directionsService = new google.maps.DirectionsService();
       this.directionsRenderer = new google.maps.DirectionsRenderer();
 
-      const map = new google.maps.Map(mapElement, {
+      const mapa = new google.maps.Map(elementoMapa, {
         center: this.viaje.origin,
         zoom: 15
       });
 
-      this.directionsRenderer.setMap(map);
-      this.directionsRenderer.setPanel(trayectoElement);
+      this.directionsRenderer.setMap(mapa);
+      this.directionsRenderer.setPanel(elementoTrayecto);
 
-      const request = {
+      const solicitud = {
         origin: this.viaje.origin,
-        destination: this.viaje.destination,
+        destination: this.viaje.destino,
         travelMode: google.maps.TravelMode.DRIVING
       };
 
-      this.directionsService.route(request, (result: any, status: any) => {
-        if (status === google.maps.DirectionsStatus.OK) {
-          this.directionsRenderer.setDirections(result);
+      this.directionsService.route(solicitud, (resultado: any, estado: any) => {
+        if (estado === google.maps.DirectionsStatus.OK) {
+          this.directionsRenderer.setDirections(resultado);
 
-          const route = result.routes[0];
-          this.distance = route.legs[0].distance.value / 1000; // Convert meters to km
-          this.duration = route.legs[0].duration.text;
+          const ruta = resultado.routes[0];
+          this.distancia = ruta.legs[0].distance.value / 1000;
+          this.duracion = ruta.legs[0].duration.text;
 
-          const costPerKm = 0.5; // For example, 0.5 currency units per km
-          this.totalCost = this.distance * costPerKm;
-          this.costPerPerson = this.totalCost / this.viaje.capacidad;
+          const costoPorKm = 0.5;
+          this.costoTotal = this.distancia * costoPorKm;
+          this.costoPorPersona = this.costoTotal / this.viaje.capacidad;
         } else {
           alert('Error al calcular la ruta');
         }
@@ -79,7 +78,6 @@ export class DetallesviajePage implements OnInit {
   }
 
   confirmar() {
-  
     if (this.viaje.capacidad > 0) {
       this.viaje.capacidad--; 
       alert('Viaje solicitado');
@@ -88,11 +86,12 @@ export class DetallesviajePage implements OnInit {
       alert('Capacidad agotada');
     }
   }
-  cancelarViaje() {
-    const currentTime = new Date();
-    const viajeTime = new Date(this.viaje.inicio); 
 
-    if (viajeTime.getTime() - currentTime.getTime() >= 30 * 60 * 1000) {
+  cancelarViaje() {
+    const horaActual = new Date();
+    const horaViaje = new Date(this.viaje.inicio); 
+
+    if (horaViaje.getTime() - horaActual.getTime() >= 30 * 60 * 1000) {
       alert('Viaje cancelado con éxito.');
       this.modalCtrl.dismiss(null, 'cancel');
     } else {
