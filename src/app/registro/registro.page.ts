@@ -39,13 +39,8 @@ export class RegistroPage {
   constructor(private router: Router,
               private storageservice: StorageService,
               private navCtrl: NavController
-  ) {
-
-
-    
+  ) {  
   }
-
-  
 
   async registro() {
     const nuevoRegistro={
@@ -62,7 +57,6 @@ export class RegistroPage {
     // console.log('Usuario registrado:', { username: this.username, role: this.userRole });
     // alert('Usuario registrado exitosamente');
     // this.router.navigate(['/login']);
-  
   
   } // Fin de registro
 
