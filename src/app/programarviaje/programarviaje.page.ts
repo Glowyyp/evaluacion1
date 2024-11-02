@@ -21,47 +21,45 @@ export class ProgramarViajePage implements OnInit {
   apellidoConductor: string = '';
   patente: string = '';
   info: string = '';
-  costoPorKm: number= 0;
+  costoPorKm: number = 0;
   inicio = new Date().toISOString();
 
- 
   mapa: any;
-  marker: any;
-  puntoreferencia = { lat: -33.56927262660861, lng: -70.55750206116815 };
-  search: any;
-  directionsService: any;
-  directionsRenderer: any;
-  routeDirections: any;  
-  destinationAddress: string = ''; 
-
+  marcador: any;
+  puntoReferencia = { lat: -33.59832207631835, lng: -70.57876561735603 };
+  busqueda: any;
+  servicioDirecciones: any;
+  renderizadorDirecciones: any;
+  direccionesRuta: any;
+  direccionDestino: string = '';
 
   constructor(private router: Router, private storageService: StorageService) { }
 
   ngOnInit() {
     this.dibujarMapa();
-    this.buscarDireccion(this.mapa, this.marker);
+    this.buscarDireccion(this.mapa, this.marcador);
   }
 
   dibujarMapa() {
     const mapElement = document.getElementById('map');
     if (mapElement) {
       this.mapa = new google.maps.Map(mapElement, {
-        center: this.puntoreferencia,
+        center: this.puntoReferencia,
         zoom: 15
       });
 
-      this.marker = new google.maps.Marker({
-        position: this.puntoreferencia,
+      this.marcador = new google.maps.Marker({
+        position: this.puntoReferencia,
         map: this.mapa
       });
 
-      this.directionsService = new google.maps.DirectionsService();
-      this.directionsRenderer = new google.maps.DirectionsRenderer();
-      this.directionsRenderer.setMap(this.mapa);
+      this.servicioDirecciones = new google.maps.DirectionsService();
+      this.renderizadorDirecciones = new google.maps.DirectionsRenderer();
+      this.renderizadorDirecciones.setMap(this.mapa);
 
       const trayecto = document.getElementById('trayecto');
       if (trayecto) {
-        this.directionsRenderer.setPanel(trayecto);
+        this.renderizadorDirecciones.setPanel(trayecto);
       } else {
         console.warn("panel de trayecto no encontrado");
       }
@@ -71,11 +69,10 @@ export class ProgramarViajePage implements OnInit {
   }
 
   async agendar() {
-  
-    if (this.capacidad > 0 && this.costo > 0 && 
+    if (this.capacidad > 0 && this.costo > 0 &&
         this.nombreConductor.length >= 3 &&
-        this.apellidoConductor.length >= 3 && 
-        this.patente.length === 7 && this.routeDirections) {
+        this.apellidoConductor.length >= 3 &&
+        this.patente.length === 7 && this.direccionesRuta) {
       
       const viaje: Trip = {
         nombreConductor: this.nombreConductor,
@@ -84,14 +81,11 @@ export class ProgramarViajePage implements OnInit {
         capacidad: this.capacidad,
         costo: this.costo,
         info: this.info,
-        origin: this.puntoreferencia,              
-        destination: this.destinationAddress,      
-        routeDirections: this.routeDirections, 
+        origin: this.puntoReferencia,
+        destino: this.direccionDestino,
+        routeDirections: this.direccionesRuta,
         costoPorKm: this.costoPorKm,
         inicio: this.inicio
-
-         
-        
       };
 
       await this.storageService.agregarViaje(viaje);
@@ -99,33 +93,32 @@ export class ProgramarViajePage implements OnInit {
       this.router.navigate(['/viajesdisp']);
       
     } else {
-      this.mostrarErroresVa();
+      this.mostrarErrores();
     }
   }
 
   calculaRuta() {
-    if (!this.search || !this.search.getPlace()) {
-      alert("porfavor seleccione una direccion valida");
+    if (!this.busqueda || !this.busqueda.getPlace()) {
+      alert("Por favor seleccione una dirección válida");
       return;
     }
   
-    const origen = this.puntoreferencia;
-    const place = this.search.getPlace();
+    const origen = this.puntoReferencia;
+    const place = this.busqueda.getPlace();
     const destino = place.geometry.location;
-    this.destinationAddress = place.formatted_address;
+    this.direccionDestino = place.formatted_address;
   
     const request = {
       origin: origen,
       destination: destino,
-      travelMode: google.maps.TravelMode.DRIVING 
+      travelMode: google.maps.TravelMode.DRIVING
     };
   
-    this.directionsService.route(request, (result: any, status: any) => {
+    this.servicioDirecciones.route(request, (result: any, status: any) => {
       if (status === google.maps.DirectionsStatus.OK) {
-        this.directionsRenderer.setDirections(result);
+        this.renderizadorDirecciones.setDirections(result);
         
-        
-        this.routeDirections = {
+        this.direccionesRuta = {
           distance: result.routes[0].legs[0].distance.text,
           duration: result.routes[0].legs[0].duration.text,
           steps: result.routes[0].legs[0].steps.map((step: any) => ({
@@ -135,10 +128,10 @@ export class ProgramarViajePage implements OnInit {
           }))
         };
   
-        console.log("ruta calculada con exito");
+        console.log("ruta calculada con éxito");
       } else {
         alert('Error al calcular la ruta');
-        console.error("calculo de ruta fallo con el estado:", status);
+        console.error("calculo de ruta falló con el estado:", status);
       }
     });
   }
@@ -147,13 +140,12 @@ export class ProgramarViajePage implements OnInit {
     const input = document.getElementById('autocomplete') as HTMLInputElement | null;
     if (input) {
       const autocomplete = new google.maps.places.Autocomplete(input);
-      this.search = autocomplete;
+      this.busqueda = autocomplete;
 
-      
-      autocomplete.addListener('direccion cambiada', () => {
+      autocomplete.addListener('place_changed', () => {
         const place = autocomplete.getPlace();
         if (!place.geometry) {
-          console.warn("direccion seleccionada no valida");
+          console.warn("dirección seleccionada no válida");
           return;
         }
 
@@ -172,7 +164,7 @@ export class ProgramarViajePage implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  mostrarErroresVa() {
+  mostrarErrores() {
     if (this.capacidad <= 0) {
       alert('Ingrese una capacidad válida');
     } else if (this.costo <= 0) {
@@ -183,9 +175,8 @@ export class ProgramarViajePage implements OnInit {
       alert('Ingrese un apellido válido');
     } else if (this.patente.length !== 7) {
       alert('Ingrese una patente válida de 7 caracteres');
-    } else if (!this.routeDirections) {
+    } else if (!this.direccionesRuta) {
       alert('Seleccione un destino y calcule la ruta.');
     }
   }
 }
-

@@ -55,17 +55,12 @@ export class RegistroPage {
     let resp = this.storageservice.registro('personas', nuevoRegistro);
 
     // console.log('Usuario registrado:', { username: this.username, role: this.userRole });
-    // alert('Usuario registrado exitosamente');
-    // this.router.navigate(['/login']);
+    alert('Usuario registrado exitosamente');
+    this.router.navigate(['/login']);
   
   } // Fin de registro
-
 
     volver() {
       this.navCtrl.navigateForward('/login'); 
     }
-  
-
-  
-
 }

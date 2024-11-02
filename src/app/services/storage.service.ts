@@ -10,7 +10,7 @@ export interface Trip {
   costo: number;
   info: string;
   origin: { lat: number; lng: number }; 
-  destination: string; 
+  destino: string; 
   routeDirections: any; 
   inicio: string; 
   costoPorKm: number; 

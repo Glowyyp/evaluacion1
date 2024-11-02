@@ -77,7 +77,7 @@ export class ViajesDispPage implements OnInit {
      
       const request = {
         origin: viaje.origin,
-        destination: viaje.destination,
+        destino: viaje.destino,
         travelMode: google.maps.TravelMode.DRIVING
       };
 
