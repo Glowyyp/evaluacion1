@@ -36,24 +36,23 @@ export class HomePage {
     console.log(`Dismissed with role: ${ev.detail.role}`);
   }
 
-
   perfil() {
-      this.router.navigateByUrl('perfil')
+    this.router.navigateByUrl('/tabs/perfil');
   }
 
   viajesdisp() {
-    this.router.navigateByUrl('/viajesdisp');
+    this.router.navigateByUrl('/tabs/viajesdisp');
   }
 
-  programar(){
-    this.router.navigateByUrl('/programarviaje');
+  programar() {
+    this.router.navigateByUrl('/tabs/programarviaje');
   }
 
-  cerrar(){
+  cerrar() {
     this.router.navigateByUrl('/login');
   }
 
-  sobre(){
-    this.router.navigateByUrl('/sobre')
+  sobre() {
+    this.router.navigateByUrl('/tabs/sobre');
   }
 }

@@ -64,6 +64,6 @@ export class PerfilPage implements OnInit {
   }
 
   volver() {
-    this.navCtrl.navigateForward('/home'); 
+    this.navCtrl.navigateForward('tabs/home'); 
   }
 }

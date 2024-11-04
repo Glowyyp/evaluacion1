@@ -4,6 +4,8 @@ import { Trip } from '../services/storage.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ConfirmacionPagoPage } from '../confimarcionpago/confimarcionpago.page';
+import { StorageService } from '../services/storage.service';
 
 declare var google: any;
 
@@ -26,7 +28,9 @@ export class DetallesviajePage implements OnInit {
   directionsRenderer: any;
 
   constructor(
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private storageService: StorageService
+    
   ) {}
 
   ngOnInit() { 
@@ -73,6 +77,9 @@ export class DetallesviajePage implements OnInit {
     }
   }
 
+
+  
+
   cerrar() {
     this.modalCtrl.dismiss();
   }
@@ -84,6 +91,25 @@ export class DetallesviajePage implements OnInit {
       this.modalCtrl.dismiss(this.viaje);
     } else {
       alert('Capacidad agotada');
+    }
+  }
+
+  async confirmarViaje() {
+   
+    const success = await this.storageService.reducirCapacidad(this.viaje.patente);
+
+    if (success) {
+    
+      await this.modalCtrl.dismiss();
+
+    
+      const modal = await this.modalCtrl.create({
+        component: ConfirmacionPagoPage,
+        componentProps: { viaje: this.viaje }
+      });
+      await modal.present();
+    } else {
+      alert('No se pudo confirmar el viaje. Capacidad agotada o viaje no encontrado.');
     }
   }
 

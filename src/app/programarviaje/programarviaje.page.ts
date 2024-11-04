@@ -81,31 +81,30 @@ export class ProgramarViajePage implements OnInit {
         apellidoConductor: this.apellidoConductor,
         patente: this.patente,
         capacidad: this.capacidad,
-        costo: this.costo,
+        costo: this.costo, 
         info: this.info,
         origin: this.puntoReferencia,
         destino: this.direccionDestino,
         routeDirections: this.direccionesRuta,
-        costoPorKm: this.costoPorKm,
         inicio: this.inicio
       };
-
+  
       await this.storageService.agregarViaje(viaje);
       alert(`Su viaje ha sido programado con una capacidad de ${this.capacidad} pasajeros y un costo de $${this.costo} por pasajero.`);
-      this.router.navigate(['/home']);
+      this.router.navigate(['tabs/home']);
       
       const modal = await this.modalCtrl.create({
         component: ViajeDetallePage,
         componentProps: { viaje: viaje }
       });
-
+  
       await modal.present();
-
-
+  
     } else {
       this.mostrarErrores();
     }
   }
+  
 
   calculaRuta() {
     if (!this.busqueda || !this.busqueda.getPlace()) {
@@ -127,9 +126,18 @@ export class ProgramarViajePage implements OnInit {
     this.servicioDirecciones.route(request, (result: any, status: any) => {
       if (status === google.maps.DirectionsStatus.OK) {
         this.renderizadorDirecciones.setDirections(result);
-        
+  
+   
+        let distanciaText = result.routes[0].legs[0].distance.text;
+        let distanciaEnKm = parseFloat(distanciaText.replace(',', '.'));
+  
+        if (distanciaText.includes(" m")) {
+          distanciaEnKm = distanciaEnKm / 1000; 
+        }
+  
+       
         this.direccionesRuta = {
-          distance: result.routes[0].legs[0].distance.text,
+          distance: distanciaText,
           duration: result.routes[0].legs[0].duration.text,
           steps: result.routes[0].legs[0].steps.map((step: any) => ({
             instructions: step.instructions,
@@ -138,13 +146,24 @@ export class ProgramarViajePage implements OnInit {
           }))
         };
   
-        console.log("ruta calculada con éxito");
+       
+        if (distanciaEnKm > 0) {
+          this.costoPorKm = this.costo / distanciaEnKm;
+        } else {
+          this.costoPorKm = 0; 
+        }
+  
+        console.log("Ruta calculada con éxito");
+        console.log("Distancia original:", distanciaText);
+        console.log("Distancia en km:", distanciaEnKm);
+        console.log("Costo por Km calculado:", this.costoPorKm);
       } else {
         alert('Error al calcular la ruta');
-        console.error("calculo de ruta falló con el estado:", status);
+        console.error("Calculo de ruta falló con el estado:", status);
       }
     });
   }
+  
 
   buscarDireccion(mapaLocal: any, marcadorLocal: any) {
     const input = document.getElementById('autocomplete') as HTMLInputElement | null;
@@ -171,7 +190,7 @@ export class ProgramarViajePage implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['tabs/home']);
   }
 
   mostrarErrores() {

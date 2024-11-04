@@ -16,7 +16,7 @@ export class SobrePage implements OnInit {
   constructor(private router:Router) { }
 
   volver() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['tabs/home']);
   }
 
 

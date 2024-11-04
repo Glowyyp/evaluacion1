@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Escáner QR</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancelar()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+ 
+  <div id="reader" *ngIf="isCameraPermissionGranted && scannerResult === null"></div>
+
+ 
+  <div *ngIf="!isCameraPermissionGranted">
+    <ion-button expand="block" color="primary" (click)="requestCameraPermission()">
+      Solicitar Permisos de Cámara
+    </ion-button>
+  </div>
+
+ 
+  <ion-button *ngIf="isCameraPermissionGranted && !scannerResult" expand="block" color="success" (click)="pagar()">
+    Pagar
+  </ion-button>
+
+ 
+  <div *ngIf="scannerResult" style="margin-top: 20px;">
+    <p><strong>Resultado del escáner:</strong> {{ scannerResult }}</p>
+  </div>
+
+ 
+  <ion-card *ngIf="viaje">
+    <ion-card-header>
+      <ion-card-title>Detalles del Viaje</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Costo:</strong> ${{ costoPorPersona.toFixed(2) }}</p>
+      <p><strong>Distancia Estimada:</strong> {{ distancia | number:'1.1-2' }} km</p>
+      <p><strong>Duración Estimada:</strong> {{ duracion }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  
+  <ion-button *ngIf="scannerResult" expand="block" color="secondary" (click)="finalizarViaje()">
+    Viaje Finalizado
+  </ion-button>
+</ion-content>

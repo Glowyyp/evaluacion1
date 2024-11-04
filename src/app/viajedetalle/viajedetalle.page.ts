@@ -15,7 +15,6 @@ declare var google: any;
 })
 export class ViajeDetallePage implements OnInit, AfterViewInit {
   @Input() viaje!: Trip;
-  totalCost: number = 0;
   showQR: boolean = false;
 
   @ViewChild('map', { static: false }) mapElementRef!: ElementRef;
@@ -26,9 +25,7 @@ export class ViajeDetallePage implements OnInit, AfterViewInit {
   constructor(private modalCtrl: ModalController) {}
 
   ngOnInit() {
-    const distanceText = this.viaje.routeDirections.distance.replace(' km', '').replace(',', '.');
-    const distanceInKm = parseFloat(distanceText);
-    this.totalCost = isNaN(distanceInKm) ? 0 : distanceInKm * this.viaje.costoPorKm;
+    console.log("Detalles del viaje:", this.viaje);
   }
 
   ngAfterViewInit() {
@@ -74,16 +71,18 @@ export class ViajeDetallePage implements OnInit, AfterViewInit {
 
   displayRoute() {
     if (!this.servicioDirecciones || !this.renderizadorDirecciones) return;
-
+  
     const request = {
       origin: { lat: this.viaje.origin.lat, lng: this.viaje.origin.lng },
       destination: this.viaje.destino,
       travelMode: google.maps.TravelMode.DRIVING
     };
-
+  
+    console.log("Solicitud de ruta:", request);
+  
     this.servicioDirecciones.route(request, (result: any, status: any) => {
       if (status === google.maps.DirectionsStatus.OK) {
-        console.log("Directions result:", result); 
+        console.log("Resultado de las direcciones:", result); 
         this.renderizadorDirecciones.setDirections(result); 
       } else {
         alert('Error al calcular la ruta');

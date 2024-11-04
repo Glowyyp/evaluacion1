@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
@@ -13,7 +12,6 @@ export interface Trip {
   destino: string; 
   routeDirections: any; 
   inicio: string; 
-  costoPorKm: number; 
 }
 
 @Injectable({
@@ -28,19 +26,16 @@ export class StorageService {
   }
 
   async init() {
-    
     const storage = await this.storage.create();
     this._storage = storage;
   }
 
   private async getStorage(): Promise<Storage> {
-    
     if (!this._storage) {
       await this.init();
     }
     return this._storage!;
   }
-
 
   async set(key: string, value: any) {
     await this.storage.set(key, value);
@@ -72,5 +67,24 @@ export class StorageService {
     if (index !== -1) {
       trips[index] = viajeActualizado;
       await this.set(this.TRIPS_KEY, trips);
+    }
   }
-}}
+
+ 
+  async reducirCapacidad(patente: string): Promise<boolean> {
+    const trips = await this.allViajes();
+    const index = trips.findIndex(trip => trip.patente === patente);
+
+    if (index !== -1) {
+      trips[index].capacidad -= 1; 
+
+      if (trips[index].capacidad <= 0) {
+        trips.splice(index, 1); 
+      }
+
+      await this.set(this.TRIPS_KEY, trips); 
+      return true;
+    }
+    return false;
+  }
+}

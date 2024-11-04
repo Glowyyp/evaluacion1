@@ -17,8 +17,6 @@ declare var google: any;
   schemas: [CUSTOM_ELEMENTS_SCHEMA] 
 })
 
-
-
 export class ViajesDispPage implements OnInit {
   viajes: Trip[] = [];
   directionsService: any;
@@ -34,6 +32,7 @@ export class ViajesDispPage implements OnInit {
   async cargarViajes() {
     this.viajes = await this.storageService.allViajes();
   }
+
   async actualizarIon() {
     await this.cargarViajes();
   }
@@ -54,15 +53,12 @@ export class ViajesDispPage implements OnInit {
   
     return await modal.present();
   }
-  
-
 
   verRuta(viaje: Trip) {
     const mapElement = document.getElementById('map');
     const trayectoElement = document.getElementById('trayecto');
     
     if (mapElement && trayectoElement) {
-     
       this.directionsService = new google.maps.DirectionsService();
       this.directionsRenderer = new google.maps.DirectionsRenderer();
 
@@ -74,10 +70,9 @@ export class ViajesDispPage implements OnInit {
       this.directionsRenderer.setMap(map);
       this.directionsRenderer.setPanel(trayectoElement);
 
-     
       const request = {
         origin: viaje.origin,
-        destino: viaje.destino,
+        destination: viaje.destino, 
         travelMode: google.maps.TravelMode.DRIVING
       };
 
@@ -90,25 +85,27 @@ export class ViajesDispPage implements OnInit {
           const duration = route.legs[0].duration.text;
           
           
-          const costPerKm = viaje.costoPorKm || 0.5;
-          const totalCost = distance * costPerKm;
-          const costPerPerson = totalCost / viaje.capacidad;
-  
-          alert(`Distancia: ${distance} km\nDuración estimada: ${duration}\nCosto total: ${totalCost.toFixed(2)}\nCosto por persona: ${costPerPerson.toFixed(2)}`);
-      
+          const totalCost = viaje.costo * viaje.capacidad; 
+          const costPerPerson = viaje.costo; 
 
+          alert(`Distancia: ${distance.toFixed(2)} km\nDuración estimada: ${duration}\nCosto total: $${totalCost.toFixed(2)}\nCosto por persona: $${costPerPerson.toFixed(2)}`);
         } else {
           alert('Error al calcular la ruta');
-          console.error("calculo de ruta fallo con el estado de : ", status);
+          console.error("Error al calcular la ruta con el estado:", status);
         }
       });
     } else {
-      console.error("trayecto no encontrado");
+      console.error("Elemento de mapa o trayecto no encontrado");
     }
   }
 
+
+  async ionViewWillEnter() {
+    await this.cargarViajes();
+  }
+
   volver() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['tabs/home']);
   }
 
   listaActualizada(viajeActualizado: Trip) {

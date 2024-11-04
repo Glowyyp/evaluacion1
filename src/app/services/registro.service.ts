@@ -23,8 +23,14 @@ export class StorageService {
     await this._storage?.set('usuarioActual', usuario); 
     console.log('Usuario registrado y guardado como actual:', usuario); 
   }
+  private async ensureStorageInitialized() {
+    if (!this._storage) {
+      await this.init();
+    }
+  }
 
   async obtenerUsuarioActual() {
+    await this.ensureStorageInitialized();
     const usuarioActual = await this._storage?.get('usuarioActual');
     console.log('Obteniendo usuario actual:', usuarioActual);  
     return usuarioActual;
@@ -45,6 +51,9 @@ export class StorageService {
       usuarios[index] = usuarioActualizado;
       await this.storage.set(key, usuarios);
     }
+  }
+  async setUsuarioActual(usuario: any) {
+    await this._storage?.set('usuarioActual', usuario);
   }
 
   async eliminarUsuario(key: string, identificador: string) {

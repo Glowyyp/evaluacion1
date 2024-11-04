@@ -23,26 +23,27 @@ export class LoginPage {
      
       const usuarios = await this.storageService.obtenerUsuarios('personas');
 
+     
       const usuario = usuarios.find(
         user => user.username === this.email && user.password === this.contrasenia
       );
 
       if (usuario) {
-      
+        await this.storageService.setUsuarioActual(usuario);
         if (usuario.rolusuario === 'conductor') {
           alert('Login exitoso como conductor');
-          this.router.navigateByUrl('/programarviaje');
+          this.router.navigateByUrl('/tabs/programarviaje');
         } else if (usuario.rolusuario === 'pasajero') {
           alert('Login exitoso como Pasajero');
-          this.router.navigateByUrl('/viajesdisp');
+          this.router.navigateByUrl('/tabs/viajesdisp');
         } else {
           alert('Rol de usuario no reconocido');
         }
       } else {
-        alert('Correo o contraseña incorrectos');
+        alert('usuario o contraseña incorrectos');
       }
     } else {
-      alert('Por favor ingrese un correo y contraseña');
+      alert('Por favor ingrese un usuario y contraseña');
     }
   }
 
