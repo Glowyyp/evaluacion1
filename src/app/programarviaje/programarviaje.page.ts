@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { StorageService, Trip } from '../services/storage.service';
 import { ModalController } from '@ionic/angular/standalone';
 import { ViajeDetallePage } from '../viajedetalle/viajedetalle.page';
+import { registroService } from '../services/registro.service';
 
 declare var google: any;
 
@@ -20,7 +21,6 @@ export class ProgramarViajePage implements OnInit {
   costo: number = 0;
   capacidad: number = 0;
   nombreConductor: string = '';
-  apellidoConductor: string = '';
   patente: string = '';
   info: string = '';
   costoPorKm: number = 0;
@@ -35,9 +35,18 @@ export class ProgramarViajePage implements OnInit {
   direccionesRuta: any;
   direccionDestino: string = '';
 
-  constructor(private router: Router, private storageService: StorageService, private modalCtrl: ModalController) { }
-
-  ngOnInit() {
+  constructor(private router: Router, 
+    private storageService: StorageService, 
+    private modalCtrl: ModalController,
+    private registroService: registroService) { }
+  async ngOnInit() {
+    
+    const usuarioActual = await this.registroService.obtenerUsuarioActual();
+    if (usuarioActual) {
+      this.nombreConductor = usuarioActual.username;
+     
+    }
+    
     this.dibujarMapa();
     this.buscarDireccion(this.mapa, this.marcador);
   }
@@ -72,13 +81,11 @@ export class ProgramarViajePage implements OnInit {
 
   async agendar() {
     if (this.capacidad > 0 && this.costo > 0 &&
-        this.nombreConductor.length >= 3 &&
-        this.apellidoConductor.length >= 3 &&
+        this.nombreConductor.length >= 3 && // Only checking conductor's name
         this.patente.length === 7 && this.direccionesRuta) {
       
       const viaje: Trip = {
         nombreConductor: this.nombreConductor,
-        apellidoConductor: this.apellidoConductor,
         patente: this.patente,
         capacidad: this.capacidad,
         costo: this.costo, 
@@ -201,8 +208,6 @@ export class ProgramarViajePage implements OnInit {
       alert('Ingrese un costo válido');
     } else if (this.nombreConductor.length < 3) {
       alert('Ingrese un nombre válido');
-    } else if (this.apellidoConductor.length < 3) {
-      alert('Ingrese un apellido válido');
     } else if (this.patente.length !== 7) {
       alert('Ingrese una patente válida de 7 caracteres');
     } else if (!this.direccionesRuta) {

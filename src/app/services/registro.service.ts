@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage-angular';
 @Injectable({
   providedIn: 'root'
 })
-export class StorageService {
+export class registroService {
   private _storage: Storage | null = null;
 
   constructor(private storage: Storage) {
@@ -38,6 +38,8 @@ export class StorageService {
     return usuarioActual;
   }
 
+  
+
   async actualizarUsuarioActual(usuarioActualizado: any) {
     await this._storage?.set('usuarioActual', usuarioActualizado);
   }
@@ -57,10 +59,31 @@ export class StorageService {
   async setUsuarioActual(usuario: any) {
     await this._storage?.set('usuarioActual', usuario);
   }
+  
 
   async eliminarUsuario(key: string, identificador: string) {
     const usuarios = await this.obtenerUsuarios(key);
     const usuariosActualizados = usuarios.filter(user => user.identificador !== identificador);
     await this.storage.set(key, usuariosActualizados);
+  }
+  
+  async eliminarUsuarioActual() {
+    await this.ensureStorageInitialized();
+    await this._storage?.remove('usuarioActual');
+    console.log('Usuario actual eliminado de la sesión');
+}
+  
+  
+  async set(key: string, value: any) {
+    await this._storage?.set(key, value);
+  }
+  
+  
+  
+  async get(key: string) {
+    return await this._storage?.get(key);
+  }
+  async remove(key: string) {
+    await this._storage?.remove(key);
   }
 }

@@ -3,7 +3,6 @@ import { Storage } from '@ionic/storage-angular';
 
 export interface Trip {
   nombreConductor: string;
-  apellidoConductor: string;
   patente: string;
   capacidad: number;
   costo: number;
@@ -56,8 +55,9 @@ export class StorageService {
 
   async agregarViaje(newTrip: Trip) {
     const trips = await this.allViajes();
-    trips.push(newTrip);  
-    await this.set(this.TRIPS_KEY, trips);  
+    trips.push(newTrip);
+    await this.set('viajes', trips);  
+    console.log('Trip added:', newTrip);  
   }
 
   async viajeActualizado(viajeActualizado: Trip) {
@@ -69,7 +69,12 @@ export class StorageService {
       await this.set(this.TRIPS_KEY, trips);
     }
   }
-
+  async eliminarViaje(patente: string): Promise<void> {
+    const trips = await this.allViajes();
+    const updatedTrips = trips.filter(trip => trip.patente !== patente);
+    await this.set(this.TRIPS_KEY, updatedTrips);
+    console.log('Viaje eliminado:', patente);
+  }
  
   async reducirCapacidad(patente: string): Promise<boolean> {
     const trips = await this.allViajes();

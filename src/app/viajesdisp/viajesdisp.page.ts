@@ -1,12 +1,11 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular'; 
+import { IonicModule } from '@ionic/angular';  // 
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { StorageService, Trip } from '../services/storage.service';
+import { registroService } from '../services/registro.service';
 import { ModalController } from '@ionic/angular';
 import { DetallesviajePage } from '../detallesviaje/detallesviaje.page';
-
-declare var google: any;
 
 @Component({
   selector: 'app-viajesdisp',
@@ -14,29 +13,58 @@ declare var google: any;
   styleUrls: ['./viajesdisp.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule], 
-  schemas: [CUSTOM_ELEMENTS_SCHEMA] 
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]  
 })
-
 export class ViajesDispPage implements OnInit {
   viajes: Trip[] = [];
-  directionsService: any;
-  directionsRenderer: any;
+  rolusuario: string = ''; 
+  username: string = '';
+  isLoading: boolean = false; 
 
-  constructor(private router: Router, private storageService: StorageService, private modalCtrl: ModalController) {}
+  constructor(
+    private router: Router,
+    private storageService: StorageService,  
+    private registroService: registroService, 
+    private modalCtrl: ModalController
+  ) {}
 
   async ngOnInit() {
-    this.viajes = await this.storageService.allViajes();
+   
+    await this.getUserData();
     await this.cargarViajes();
-  }
-  
-  async cargarViajes() {
-    this.viajes = await this.storageService.allViajes();
   }
 
-  async actualizarIon() {
+  async ionViewWillEnter() {
     await this.cargarViajes();
   }
+
+  async getUserData() {
+    const usuarioActual = await this.registroService.obtenerUsuarioActual();
+    this.rolusuario = usuarioActual ? usuarioActual.rolusuario : '';
+    this.username = usuarioActual ? usuarioActual.username : '';
+  }
+
+  async cargarViajes() {
+    this.isLoading = true;
   
+    try {
+      const allViajes = await this.storageService.allViajes(); 
+      console.log('All trips:', allViajes); 
+  
+      if (this.rolusuario === 'conductor') {
+        this.viajes = allViajes.filter(viaje => viaje.nombreConductor === this.username);
+        console.log('Filtered trips for conductor:', this.viajes); 
+      } else if (this.rolusuario === 'pasajero') {
+        this.viajes = allViajes;
+        console.log('Trips for passenger:', this.viajes); 
+      }
+    } catch (error) {
+      console.error('Error loading trips:', error);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
   async DetallesViajeModal(viaje: Trip) {
     const modal = await this.modalCtrl.create({
       component: DetallesviajePage,
@@ -44,7 +72,6 @@ export class ViajesDispPage implements OnInit {
     });
   
     modal.onDidDismiss().then(async (result) => {  
-   
       if (result.role === 'cancel') {
         this.viajes = this.viajes.filter(trip => trip.patente !== viaje.patente);
       } else if (result.data) {
@@ -54,61 +81,6 @@ export class ViajesDispPage implements OnInit {
     });
   
     return await modal.present();
-    
-  }
-
-  verRuta(viaje: Trip) {
-    const mapElement = document.getElementById('map');
-    const trayectoElement = document.getElementById('trayecto');
-    
-    if (mapElement && trayectoElement) {
-      this.directionsService = new google.maps.DirectionsService();
-      this.directionsRenderer = new google.maps.DirectionsRenderer();
-
-      const map = new google.maps.Map(mapElement, {
-        center: viaje.origin,
-        zoom: 15
-      });
-
-      this.directionsRenderer.setMap(map);
-      this.directionsRenderer.setPanel(trayectoElement);
-
-      const request = {
-        origin: viaje.origin,
-        destination: viaje.destino, 
-        travelMode: google.maps.TravelMode.DRIVING
-      };
-
-      this.directionsService.route(request, (result: any, status: any) => {
-        if (status === google.maps.DirectionsStatus.OK) {
-          this.directionsRenderer.setDirections(result);
-
-          const route = result.routes[0];
-          const distance = route.legs[0].distance.value / 1000; 
-          const duration = route.legs[0].duration.text;
-          
-          
-          const totalCost = viaje.costo * viaje.capacidad; 
-          const costPerPerson = viaje.costo; 
-
-          alert(`Distancia: ${distance.toFixed(2)} km\nDuración estimada: ${duration}\nCosto total: $${totalCost.toFixed(2)}\nCosto por persona: $${costPerPerson.toFixed(2)}`);
-        } else {
-          alert('Error al calcular la ruta');
-          console.error("Error al calcular la ruta con el estado:", status);
-        }
-      });
-    } else {
-      console.error("Elemento de mapa o trayecto no encontrado");
-    }
-  }
-
-
-  async ionViewWillEnter() {
-    await this.cargarViajes();
-  }
-
-  volver() {
-    this.router.navigate(['tabs/home']);
   }
 
   listaActualizada(viajeActualizado: Trip) {
@@ -121,5 +93,8 @@ export class ViajesDispPage implements OnInit {
         this.viajes.splice(index, 1);
       }
     }
+  }
+  volver() {
+    this.router.navigate(['tabs/home']); 
   }
 }

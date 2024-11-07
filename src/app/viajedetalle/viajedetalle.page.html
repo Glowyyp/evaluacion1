@@ -23,7 +23,11 @@
   <div #map style="height: 300px; width: 100%; margin-top: 20px;"></div>
   <div #trayecto id="trayecto" style="height: 150px; width: 100%; margin-top: 10px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"></div>
 
-  <ion-button expand="block" color="primary" (click)="finishTrip()">Terminar Viaje</ion-button>
+ 
+  <ion-button expand="block" color="primary" (click)="finishTrip()">
+    {{ showQR ? 'Finalizar Viaje' : 'Terminar Viaje' }}
+  </ion-button>
+
 
   <ion-card *ngIf="showQR">
     <ion-card-header>
@@ -31,10 +35,7 @@
     </ion-card-header>
     <ion-card-content>
       <p>Total a Pagar: ${{ viaje.costo.toFixed(2) }}</p>
-     
       <qrcode [qrdata]="viaje.costo.toString()" [width]="150"></qrcode>
-    
     </ion-card-content>
   </ion-card>
- 
 </ion-content>

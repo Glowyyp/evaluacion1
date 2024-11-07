@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
-import { StorageService } from 'src/app/services/registro.service';
+import { registroService } from 'src/app/services/registro.service';
 
 @Component({
   selector: 'app-perfil',
@@ -17,7 +17,7 @@ export class PerfilPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private fb: FormBuilder,
-    private storageService: StorageService
+    private storageService: registroService
   ) { 
     this.perfilForm = this.fb.group({
       nombre: ['', Validators.required],

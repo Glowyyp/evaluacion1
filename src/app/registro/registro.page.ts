@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
-import { StorageService } from 'src/app/services/registro.service';
+import { registroService } from 'src/app/services/registro.service';
 
 interface Persona {
   username: string;
@@ -27,7 +27,7 @@ export class RegistroPage {
 
   constructor(
     private router: Router,
-    private storageService: StorageService,
+    private storageService: registroService,
     private navCtrl: NavController
   ) {}
 
