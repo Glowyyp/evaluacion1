@@ -15,32 +15,44 @@ import { StorageService } from 'src/app/services/registro.service';
 export class LoginPage {
   email: string = '';
   contrasenia: string = '';
+  isLoggingIn: boolean = false;
+  isLoading: boolean = false;
+  
 
   constructor(private router: Router, private storageService: StorageService) {}
 
   async login() {
     if (this.email && this.contrasenia) {
-     
-      const usuarios = await this.storageService.obtenerUsuarios('personas');
+      this.isLoading = true; 
 
-     
-      const usuario = usuarios.find(
-        user => user.username === this.email && user.password === this.contrasenia
-      );
+      try {
+        const usuarios = await this.storageService.obtenerUsuarios('personas');
+        const usuario = usuarios.find(
+          user => user.username === this.email && user.password === this.contrasenia
+        );
 
-      if (usuario) {
-        await this.storageService.setUsuarioActual(usuario);
-        if (usuario.rolusuario === 'conductor') {
-          alert('Login exitoso como conductor');
-          this.router.navigateByUrl('/tabs/programarviaje');
-        } else if (usuario.rolusuario === 'pasajero') {
-          alert('Login exitoso como Pasajero');
-          this.router.navigateByUrl('/tabs/viajesdisp');
+        if (usuario) {
+          await this.storageService.setUsuarioActual(usuario);
+          setTimeout(() => {
+            if (usuario.rolusuario === 'conductor') {
+              alert('Login exitoso como conductor');
+              this.router.navigateByUrl('/tabs/programarviaje');
+            } else if (usuario.rolusuario === 'pasajero') {
+              alert('Login exitoso como Pasajero');
+              this.router.navigateByUrl('/tabs/viajesdisp');
+            } else {
+              alert('Rol de usuario no reconocido');
+            }
+            this.isLoading = false; 
+          }, 1000); 
         } else {
-          alert('Rol de usuario no reconocido');
+          alert('Usuario o contraseña incorrectos');
+          this.isLoading = false; 
         }
-      } else {
-        alert('usuario o contraseña incorrectos');
+      } catch (error) {
+        console.error(error);
+        alert('Ocurrió un error');
+        this.isLoading = false;
       }
     } else {
       alert('Por favor ingrese un usuario y contraseña');
