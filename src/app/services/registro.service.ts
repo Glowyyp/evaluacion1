@@ -23,6 +23,8 @@ export class StorageService {
     await this._storage?.set('usuarioActual', usuario); 
     console.log('Usuario registrado y guardado como actual:', usuario); 
   }
+  
+  
   private async ensureStorageInitialized() {
     if (!this._storage) {
       await this.init();

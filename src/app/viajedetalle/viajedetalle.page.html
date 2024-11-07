@@ -31,7 +31,9 @@
     </ion-card-header>
     <ion-card-content>
       <p>Total a Pagar: ${{ viaje.costo.toFixed(2) }}</p>
+     
       <qrcode [qrdata]="viaje.costo.toString()" [width]="150"></qrcode>
+    
     </ion-card-content>
   </ion-card>
  

@@ -38,7 +38,7 @@ export class ViajeDetallePage implements OnInit, AfterViewInit {
 
   initializeMap() {
     if (!this.mapElementRef) {
-      console.error("Map element reference not found.");
+      console.error("no se encontro la direccion");
       return;
     }
 
@@ -60,11 +60,11 @@ export class ViajeDetallePage implements OnInit, AfterViewInit {
    
     setTimeout(() => {
       if (this.trayectoElementRef) {
-        console.log("Trayecto panel found and setting.");
+        console.log("panel de trayecto encontrado");
         this.renderizadorDirecciones.setPanel(this.trayectoElementRef.nativeElement);
         this.displayRoute();
       } else {
-        console.warn("Trayecto panel not found even after timeout.");
+        console.warn("panel de trayecto no encontrado en el tiempo limite");
       }
     }, 500); 
 
@@ -76,7 +76,7 @@ export class ViajeDetallePage implements OnInit, AfterViewInit {
 
   displayRoute() {
     if (!this.servicioDirecciones || !this.renderizadorDirecciones) {
-      console.error("Service or renderer not initialized.");
+      console.error("servicio o renderizador no iniciado");
       return;
     }
 
