@@ -12,7 +12,7 @@
     max-width: 400px;
     margin: 8px 0;
     --background: #2b2b2b; 
-    --color: white;        
+    color: white;        
   }
   
   ion-label {
@@ -54,9 +54,16 @@
   
   
   ion-button {
-    --border-radius: 8px;
-    --background: #4a90e2;
-    --color: white;
+    border-radius: 8px;
+    background: #4a90e2;
+    color: white;
     font-weight: 500;
   }
-  
+
+ion-item {
+  border-radius: 8px;
+  margin: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+

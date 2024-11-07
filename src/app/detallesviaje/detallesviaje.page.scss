@@ -59,4 +59,23 @@
     --color: white;
     font-weight: 500;
   }
-  
+ 
+ion-card {
+  margin: 15px 0;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+ion-card-content {
+  line-height: 1.6;
+}
+
+ion-button {
+  margin-top: 15px;
+  width: 100%;
+}
+
+#map {
+  height: 300px;
+  border-radius: 10px;
+}

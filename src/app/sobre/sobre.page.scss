@@ -1,0 +1,18 @@
+/* sobre.page.scss */
+ion-card {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  ion-card-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  ion-card-content p {
+    line-height: 1.6;
+    margin-bottom: 1em;
+  }
+  

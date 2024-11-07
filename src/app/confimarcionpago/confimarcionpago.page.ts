@@ -29,22 +29,25 @@ export class ConfirmacionPagoPage implements OnInit, OnDestroy {
   servicioDirecciones: any;
   renderizadorDirecciones: any;
 
-  constructor(private modalCtrl: ModalController, private navCtrl: NavController
-              ,private storageService: StorageService) {}
+  constructor(
+    private modalCtrl: ModalController,
+    private navCtrl: NavController,
+    private storageService: StorageService
+  ) {}
 
   ngOnInit() {
     this.costoPorPersona = this.viaje.costo;
-  
+
     if (this.viaje.routeDirections) {
       let distanciaText = this.viaje.routeDirections.distance;
-  
+
       if (distanciaText.includes("km")) {
         this.distancia = parseFloat(distanciaText.replace(" km", "").replace(",", "."));
       } else if (distanciaText.includes("m")) {
         const metros = parseFloat(distanciaText.replace(" m", "").replace(",", "."));
-        this.distancia = metros / 1000; 
+        this.distancia = metros / 1000;
       }
-  
+
       this.duracion = this.viaje.routeDirections.duration;
     }
   }
@@ -54,30 +57,38 @@ export class ConfirmacionPagoPage implements OnInit, OnDestroy {
       this.initializeMap();
     }, 500);
   }
-
   initializeMap() {
     if (!this.mapElementRef) {
       console.error("Referencia al elemento del mapa no encontrada.");
       return;
     }
-
+  
     const mapElement = this.mapElementRef.nativeElement;
     mapElement.style.height = '250px';
     mapElement.style.width = '100%';
-
+  
     this.mapa = new google.maps.Map(mapElement, {
       center: this.viaje.origin,
       zoom: 15
     });
-
+  
     this.servicioDirecciones = new google.maps.DirectionsService();
     this.renderizadorDirecciones = new google.maps.DirectionsRenderer({
       suppressMarkers: false,
       map: this.mapa
     });
-
+  
+    
+    const trayectoElement = document.getElementById('trayecto');
+    if (trayectoElement) {
+      this.renderizadorDirecciones.setPanel(trayectoElement);
+    } else {
+      console.warn("Panel de trayecto no encontrado");
+    }
+  
     this.displayRoute();
   }
+  
 
   displayRoute() {
     if (!this.servicioDirecciones || !this.renderizadorDirecciones) return;
@@ -102,7 +113,7 @@ export class ConfirmacionPagoPage implements OnInit, OnDestroy {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true })
         .then((stream) => {
-          this.isCameraPermissionGranted = true;  
+          this.isCameraPermissionGranted = true;
         })
         .catch((error) => {
           console.error("Detalles del error al solicitar permisos de cámara:", error);
@@ -124,18 +135,17 @@ export class ConfirmacionPagoPage implements OnInit, OnDestroy {
 
     this.html5QrCode.render(
       (result) => {
-        this.scannerResult = result;  
+        this.scannerResult = result;
         console.log("Resultado del escáner", result);
-        this.html5QrCode?.clear();  
+        this.html5QrCode?.clear();
       },
       (error) => {
         console.warn("Error al escanear el código QR:", error);
       }
     );
   }
-  
+
   async finalizarPago() {
- 
     const success = await this.storageService.reducirCapacidad(this.viaje.patente);
 
     if (success) {
@@ -144,30 +154,25 @@ export class ConfirmacionPagoPage implements OnInit, OnDestroy {
       alert('Error al actualizar el viaje.');
     }
 
-    
     this.navCtrl.navigateRoot('tabs/home');
   }
-  
 
   cancelar() {
     this.modalCtrl.dismiss();
   }
 
   pagar() {
-    
     this.startScanner();
   }
 
   finalizarViaje() {
-  
-   
     this.navCtrl.navigateRoot('tabs/home');
-    this.modalCtrl.dismiss(); 
+    this.modalCtrl.dismiss();
   }
 
   ngOnDestroy() {
     if (this.html5QrCode) {
-      this.html5QrCode.clear();  
+      this.html5QrCode.clear();
     }
   }
 }

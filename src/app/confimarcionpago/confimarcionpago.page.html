@@ -11,29 +11,26 @@
  
   <div id="reader" *ngIf="isCameraPermissionGranted && scannerResult === null"></div>
 
- 
   <div *ngIf="!isCameraPermissionGranted">
     <ion-button expand="block" color="primary" (click)="requestCameraPermission()">
       Solicitar Permisos de Cámara
     </ion-button>
   </div>
 
- 
   <ion-button *ngIf="isCameraPermissionGranted && !scannerResult" expand="block" color="success" (click)="pagar()">
     Pagar
   </ion-button>
 
- 
   <div *ngIf="scannerResult" style="margin-top: 20px;">
     <p><strong>Resultado del escáner:</strong> {{ scannerResult }}</p>
   </div>
 
- 
   <ion-card *ngIf="viaje">
     <ion-card-header>
       <ion-card-title>Detalles del Viaje</ion-card-title>
     </ion-card-header>
     <ion-card-content>
+      <p><strong>Conductor:</strong> {{ viaje.nombreConductor }} {{ viaje.apellidoConductor }}</p>
       <p><strong>Costo:</strong> ${{ costoPorPersona.toFixed(2) }}</p>
       <p><strong>Distancia Estimada:</strong> {{ distancia | number:'1.1-2' }} km</p>
       <p><strong>Duración Estimada:</strong> {{ duracion }}</p>
@@ -41,6 +38,9 @@
   </ion-card>
 
   
+  <div #map id="map" style="height: 250px; width: 100%; margin-top: 20px;"></div>
+  <div id="trayecto" style="height: 150px; width: 100%; margin-top: 10px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"></div>
+
   <ion-button *ngIf="scannerResult" expand="block" color="secondary" (click)="finalizarViaje()">
     Viaje Finalizado
   </ion-button>

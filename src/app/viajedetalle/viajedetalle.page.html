@@ -13,7 +13,6 @@
       <ion-card-title>Direcciones del Viaje</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-
       <p><strong>Destino:</strong> {{ viaje.destino }}</p>
       <p><strong>Distancia:</strong> {{ viaje.routeDirections.distance }}</p>
       <p><strong>Duración Estimada:</strong> {{ viaje.routeDirections.duration }}</p>
@@ -21,8 +20,8 @@
     </ion-card-content>
   </ion-card>
 
-  <div #map style="height: 300px; margin-top: 20px;"></div>
-  <div id="trayecto" style="height: 150px; margin-top: 10px; overflow-y: auto;"></div>
+  <div #map style="height: 300px; width: 100%; margin-top: 20px;"></div>
+  <div #trayecto id="trayecto" style="height: 150px; width: 100%; margin-top: 10px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"></div>
 
   <ion-button expand="block" color="primary" (click)="finishTrip()">Terminar Viaje</ion-button>
 
@@ -35,4 +34,5 @@
       <qrcode [qrdata]="viaje.costo.toString()" [width]="150"></qrcode>
     </ion-card-content>
   </ion-card>
+ 
 </ion-content>

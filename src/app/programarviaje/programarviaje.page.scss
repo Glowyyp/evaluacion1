@@ -59,3 +59,27 @@ ion-button {
   --color: white;
   font-weight: 500;
 }
+
+.container-pv {
+  padding: 15px;
+}
+
+ion-item {
+  margin-top: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#map {
+  height: 300px; 
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+
+ion-button {
+  margin-top: 15px;
+  width: 100%;
+}

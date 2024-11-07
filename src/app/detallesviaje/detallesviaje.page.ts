@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Trip } from '../services/storage.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -21,7 +21,6 @@ export class DetallesviajePage implements OnInit {
   
   distancia: number = 0;
   duracion: string = '';
-  costoTotal: number = 0;
   costoPorPersona: number = 0;
 
   directionsService: any;
@@ -30,10 +29,10 @@ export class DetallesviajePage implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private storageService: StorageService
-    
   ) {}
 
   ngOnInit() { 
+    this.costoPorPersona = this.viaje.costo; 
     this.iniciarMapa();
   }
 
@@ -64,21 +63,14 @@ export class DetallesviajePage implements OnInit {
           this.directionsRenderer.setDirections(resultado);
 
           const ruta = resultado.routes[0];
-          this.distancia = ruta.legs[0].distance.value / 1000;
+          this.distancia = ruta.legs[0].distance.value / 1000; 
           this.duracion = ruta.legs[0].duration.text;
-
-          const costoPorKm = 0.5;
-          this.costoTotal = this.distancia * costoPorKm;
-          this.costoPorPersona = this.costoTotal / this.viaje.capacidad;
         } else {
           alert('Error al calcular la ruta');
         }
       });
     }
   }
-
-
-  
 
   cerrar() {
     this.modalCtrl.dismiss();
@@ -95,14 +87,11 @@ export class DetallesviajePage implements OnInit {
   }
 
   async confirmarViaje() {
-   
     const success = await this.storageService.reducirCapacidad(this.viaje.patente);
 
     if (success) {
-    
       await this.modalCtrl.dismiss();
 
-    
       const modal = await this.modalCtrl.create({
         component: ConfirmacionPagoPage,
         componentProps: { viaje: this.viaje }

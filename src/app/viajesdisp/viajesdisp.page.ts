@@ -43,15 +43,18 @@ export class ViajesDispPage implements OnInit {
       componentProps: { viaje }
     });
   
-    modal.onDidDismiss().then((result) => {
+    modal.onDidDismiss().then(async (result) => {  
+   
       if (result.role === 'cancel') {
         this.viajes = this.viajes.filter(trip => trip.patente !== viaje.patente);
       } else if (result.data) {
         this.listaActualizada(result.data);
       }
+      await this.cargarViajes();  
     });
   
     return await modal.present();
+    
   }
 
   verRuta(viaje: Trip) {

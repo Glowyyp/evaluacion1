@@ -191,6 +191,7 @@ export class ProgramarViajePage implements OnInit {
 
   volver() {
     this.router.navigate(['tabs/home']);
+
   }
 
   mostrarErrores() {

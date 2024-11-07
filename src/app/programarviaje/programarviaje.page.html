@@ -48,10 +48,11 @@
         <ion-label position="stacked"> Destino </ion-label>
         <input type="text" id="autocomplete">
         <ion-button expand="block" (click)="calculaRuta()">Indicaciones del trayecto</ion-button>
-        <div id="map" style="height: 300px; margin-top: 20px;"></div>
-        <div id="trayecto" style="height: 200px; margin-top: 10px; overflow-y: auto;"></div>
+       
       </div>
     </ion-item>
+    <div id="map" style="height: 250px; width: 100%; margin-top: 20px;"></div>
+    <div id="trayecto" style="height: 150px; width: 100%; margin-top: 10px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"></div>
   
     
     <ion-button expand="block" (click)="agendar()">Programar</ion-button>

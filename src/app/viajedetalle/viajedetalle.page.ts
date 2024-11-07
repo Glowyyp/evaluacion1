@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { Trip } from '../services/storage.service';
@@ -18,6 +18,8 @@ export class ViajeDetallePage implements OnInit, AfterViewInit {
   showQR: boolean = false;
 
   @ViewChild('map', { static: false }) mapElementRef!: ElementRef;
+  @ViewChild('trayecto', { static: false }) trayectoElementRef!: ElementRef;
+
   mapa: any;
   servicioDirecciones: any;
   renderizadorDirecciones: any;
@@ -51,39 +53,49 @@ export class ViajeDetallePage implements OnInit, AfterViewInit {
 
     this.servicioDirecciones = new google.maps.DirectionsService();
     this.renderizadorDirecciones = new google.maps.DirectionsRenderer({
-      suppressMarkers: false,
-      map: this.mapa
+      map: this.mapa,
+      suppressMarkers: false
     });
 
-    const trayectoElement = document.getElementById('trayecto');
-    if (trayectoElement) {
-      this.renderizadorDirecciones.setPanel(trayectoElement);
-    } else {
-      console.warn("Trayecto panel not found");
-    }
+   
+    setTimeout(() => {
+      if (this.trayectoElementRef) {
+        console.log("Trayecto panel found and setting.");
+        this.renderizadorDirecciones.setPanel(this.trayectoElementRef.nativeElement);
+        this.displayRoute();
+      } else {
+        console.warn("Trayecto panel not found even after timeout.");
+      }
+    }, 500); 
 
+   
     google.maps.event.addListenerOnce(this.mapa, 'tilesloaded', () => {
       google.maps.event.trigger(this.mapa, 'resize');
-      this.mapa.setCenter(this.viaje.origin);
-      setTimeout(() => this.displayRoute(), 300); 
     });
   }
 
   displayRoute() {
-    if (!this.servicioDirecciones || !this.renderizadorDirecciones) return;
-  
+    if (!this.servicioDirecciones || !this.renderizadorDirecciones) {
+      console.error("Service or renderer not initialized.");
+      return;
+    }
+
     const request = {
       origin: { lat: this.viaje.origin.lat, lng: this.viaje.origin.lng },
       destination: this.viaje.destino,
       travelMode: google.maps.TravelMode.DRIVING
     };
-  
-    console.log("Solicitud de ruta:", request);
-  
+
+    console.log("Requesting route:", request);
+
     this.servicioDirecciones.route(request, (result: any, status: any) => {
       if (status === google.maps.DirectionsStatus.OK) {
-        console.log("Resultado de las direcciones:", result); 
-        this.renderizadorDirecciones.setDirections(result); 
+        console.log("Route result:", result);
+        this.renderizadorDirecciones.setDirections(result);
+
+        
+        google.maps.event.trigger(this.mapa, 'resize');
+        this.mapa.setCenter(this.viaje.origin);
       } else {
         alert('Error al calcular la ruta');
         console.error("Error al calcular la ruta:", status);
@@ -97,5 +109,6 @@ export class ViajeDetallePage implements OnInit, AfterViewInit {
 
   close() {
     this.modalCtrl.dismiss();
+    window.location.reload();
   }
 }
