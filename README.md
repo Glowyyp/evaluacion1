@@ -10,4 +10,4 @@
 4. Registrar usuario y probar la App 
 
 
-:)
+
