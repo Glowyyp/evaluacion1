@@ -44,8 +44,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -94,6 +94,9 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "allowedCommonJsDependencies": [
+              "localforage",
+              "qrcode"],
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",

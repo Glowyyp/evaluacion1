@@ -1,0 +1,284 @@
+.logo{
+    width: 200px;
+}
+
+@media(max-width: 400px){
+    .logo{
+        width: 130px;
+        justify-content: left;
+    }
+}
+
+.inicio{
+    margin: 0 auto;
+    top: 1vh;
+    height: 75vh;
+    width: 50vw;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    .inputLabel{
+        display: none;
+    }
+    .item{
+        margin: 2rem 0px 2rem 0px;
+        display: flex;
+        align-items: center;
+        input{
+            background-color: rgba(0, 0, 0, 0);
+            border: none;
+            outline: none;
+            width: 25vw;
+        }
+    }
+    .item-2{
+        margin: 2rem 0px 2rem 0px;
+        text-align: left;
+        min-height: auto;
+        min-width: auto;
+        .list-md{
+            background-color: var(--ion-background-color, transparent);
+        }
+        ion-card {
+            margin: 0 auto;
+            top: 3vh;
+            width: 500px;
+            align-items: center;
+            border-radius: 2%;
+            --background: rgba(255, 255, 255, 0.171);
+            ion-item{
+                --background: none;
+            }
+        }
+    }
+    ion-item{
+        width: 25vw;
+    }
+    .map{
+        width: 50vw;
+        height: 70vh;
+        left: 80%; 
+    }
+    ion-button{
+        width: 100px;
+    }
+}
+ion-footer{
+    width: 100vw;
+    text-align: center;
+    ion-icon{
+        font-size: 35px;
+    }
+    div{
+        display: flex;
+        width: 90%;
+        height: 60px;
+        background-color: #fff;
+        position: relative;
+        bottom: 0;
+        margin: 0 auto;
+        padding-top: 8px;
+        justify-content: space-around;
+        .active{
+            transform: translateY(-1px);
+            position: relative;
+            top: -50px;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            background-color: #ffb700d8;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .blur{
+            position: absolute;
+            top: -30px;
+            width: 60px;
+            height: 60px;
+            background: #FFB800;
+            border-radius: 50%;
+            filter: blur(5px);
+            opacity: 0.5;
+            z-index: 5;
+
+        }
+        .indicador{
+            position: absolute;
+            top: -45px;
+            width: 75px;
+            height: 75px;
+            background: #fff;
+            border-radius: 50%;
+            z-index: 0;
+            transition: 0.5;
+
+        }
+        .indicador::before{
+            content: '';
+            position: absolute;
+            bottom: 30px;
+            left: -30px;
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            border-radius: 45%;
+            box-shadow: 15px 18px #fff;
+        }
+        .indicador::after{
+            content: '';
+            position: absolute;
+            bottom: 30px;
+            right: -30px;
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            border-radius: 45%;
+            box-shadow: -15px 18px #fff;
+        }
+    }
+}
+
+
+@media (max-width: 400px) {
+    .inicio{
+        top: 0vh;
+        width: 100vw;
+        min-height: 100vh;
+        .inputLabel{
+            display: contents;
+            width: 100vw;
+            text-align: left;
+            padding-bottom: 0px;
+            p{
+                font-size: 14px;
+                margin-bottom: 0px;
+            }
+        }
+        .map{
+            width: 100vw;
+            height: 30vh;
+            #mapa{
+                width: 85%;
+                height: 100%;
+                display: 100%;
+            }
+            #ordenes{
+                width: 100%;
+                height: 30%;
+                padding: 15px;
+                overflow-y: auto;
+                display: block;
+            }
+        }
+        
+        ion-item{
+            width: 85vw;
+            height: 5vh;
+            margin-top: 0%;
+            padding-top: 3px;
+        }
+        .item{
+            margin: 0.5px 0px 1px 0px;
+            display: flex;
+            text-align: left;
+            input{
+                width: 60vw;
+                font-size: 14px;
+            }
+            input::placeholder{
+                color: transparent;
+            }
+        }
+        .item-2{
+            margin: 1rem 0px 1rem 0px;
+            text-align: left;
+            ion-card {
+                margin: 0 auto;
+                top: 3vh;
+                width: 80vw;
+                border-radius: 0%;
+                ion-card-content{
+                    text-align: left;
+                    justify-content: left;
+                }
+                ion-item{
+                    --background: none;
+                    align-content: flex-start;
+                    ion-label{
+                        font-size: 15px;
+                        --padding-left: 0px;
+                        align-content: flex-start;
+                    }
+                }
+            }
+        }
+        ion-button{
+            width: 23vw;
+            font-size: 12px;
+        }
+    }
+    ion-footer{
+        ion-icon{
+            font-size: 29px;
+        }
+        div{
+            display: flex;
+            width: 100%;
+            height: 45px;
+            padding-top: 2px;
+            .noactivo{
+                margin-top: 0px;
+            }
+            .active{
+                transform: translateY(1px);
+                top: -28px;
+                width: 50px;
+                height: 50px;
+                font-size: 5px;
+            }
+            .blur{
+                top: -18px;
+                width: 55px;
+                height: 55px;
+    
+            }
+            .indicador{
+                top: -27px;
+                width: 60px;
+                height: 60px;
+    
+            }
+            .indicador::before{
+                bottom: 32.5px;
+                left: -26px;
+                width: 30px;
+                height: 30px;
+                border-radius: 45%;
+                box-shadow: 15px 18px #fff;
+            }
+            .indicador::after{
+                bottom: 32.5px;
+                right: -26px;
+                width: 30px;
+                height: 30px;
+                border-radius: 45%;
+                box-shadow: -15px 18px #fff;
+            }
+        }
+    }
+  }
+
+#mapa{
+    width: 100%;
+    height: 90%;
+    display: 100%;
+    border-radius: 1%;
+}
+#ordenes{
+    width: 100%;
+    height: 30%;
+    padding: 15px;
+    overflow-y: auto;
+    display: block;
+}

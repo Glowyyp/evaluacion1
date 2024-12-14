@@ -1,10 +1,6 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
+
+<ion-content [fullscreen]="true">
   <div class="loader" *ngIf="isLoading">
     <div class="truckWrapper">
       <div class="truckBody">
@@ -136,19 +132,29 @@
   </div>
 
 
-  <div class="logincaja" *ngIf="!isLoading">
-    <ion-card>
-      <ion-item>
-        <ion-label position="floating">Usuario</ion-label>
-        <ion-input type="email" [(ngModel)]="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password" [(ngModel)]="contrasenia"></ion-input>
-      </ion-item>
-      <ion-button expand="block" (click)="login()">Login</ion-button>
-      <ion-button expand="block" color="light" (click)="goregistro()">Registrarse</ion-button>
-      <ion-button expand="block" color="light" (click)="goreset()">Olvide mi contraseña</ion-button>
-    </ion-card>
+  <div class="fondo">
+    <div>
+      <ion-card>
+        <img src="../../../assets/img/auto.png" alt="imagen_auto" class="imagen_auto"/>
+        <img src="../../../assets/img/logo.png" alt="imagen_logo" class="imagen_logo"/>
+
+        <ion-card-header>
+          <ion-card-title>Inicio de Sesión</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item >
+            <ion-label position="floating" color="dark">Ingrese Correo</ion-label>
+            <ion-input type="text"  [(ngModel)]="email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="contrasenia" ></ion-input>
+          </ion-item>
+          <ion-button color="warning" size="default" (click)="login()" color="secondary">Iniciar</ion-button>
+        </ion-card-content>
+        <ion-button color="medium" size="small" (click)="goregistro()" color="medium">Ir a Registro...</ion-button>
+      </ion-card>
+      <span class="doble"></span>
+    </div>
   </div>
 </ion-content>

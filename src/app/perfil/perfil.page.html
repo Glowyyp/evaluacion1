@@ -1,43 +1,57 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Perfil de Usuario</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title><img src="../../../assets/img/logo.png" alt="" class="logo"></ion-title>
+  
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <!-- Display Username as Static Text Outside Form -->
-  <ion-item>
-    <ion-label position="stacked">Usuario</ion-label>
-    <ion-text>{{ nombreUsuario }}</ion-text>
-  </ion-item>
+<ion-content>
+  
 
-  <form [formGroup]="perfilForm" (ngSubmit)="guardar()">
-    <ion-item>
-      <ion-label position="stacked">Edad</ion-label>
-      <ion-input type="number" formControlName="edad" placeholder="Ingrese su Edad"></ion-input>
-    </ion-item>
+  <ion-card>
+    <ion-card-header>
+      <h4>Información del Usuario</h4>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="perfilForm" (ngSubmit)="guardar()">
+       
+        <ion-item>
+          <ion-label position="stacked">Usuario</ion-label>
+          <ion-text>{{ nombreUsuario }}</ion-text>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Email</ion-label>
-      <ion-input type="email" formControlName="email" placeholder="ejemplo@gmail.com"></ion-input>
-    </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Telefono</ion-label>
-      <ion-input type="tel" formControlName="numero" placeholder="912345678"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Edad</ion-label>
+          <ion-input type="number" formControlName="edad" placeholder="Ingrese su Edad"></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">RUT</ion-label>
-      <ion-input formControlName="rut" placeholder="Ingrese rut sin guion ni punto"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input type="email" formControlName="email" placeholder="ejemplo@gmail.com"></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Dirección</ion-label>
-      <ion-input formControlName="direccion" placeholder="Ingrese direccion"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Teléfono</ion-label>
+          <ion-input type="tel" formControlName="numero" placeholder="912345678"></ion-input>
+        </ion-item>
 
-    <ion-button expand="full" type="submit">Guardar Cambios</ion-button>
-    <ion-button expand="full" color="danger" (click)="volver()">Volver</ion-button>
-  </form>
+        <ion-item>
+          <ion-label position="stacked">RUT</ion-label>
+          <ion-input formControlName="rut" placeholder="Ingrese rut sin guion ni punto"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Dirección</ion-label>
+          <ion-input formControlName="direccion" placeholder="Ingrese dirección"></ion-input>
+        </ion-item>
+
+        <div class="botones">
+          <ion-button expand="full" type="submit">Guardar Cambios</ion-button>
+          <ion-button expand="full" color="danger" (click)="volver()">Volver</ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+

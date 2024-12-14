@@ -1,7 +1,7 @@
 <ion-menu contentId="main-content">
   <ion-header>
-    <ion-toolbar>
-      <ion-title>TeLLevo</ion-title>
+    <ion-toolbar color="primary">
+      <ion-title><img src="../../../assets/img/logo.png" alt="" class="logo"></ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
@@ -12,7 +12,7 @@
 
 <div class="ion-page" id="main-content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="primary">
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
@@ -21,8 +21,6 @@
   </ion-header>
   
   <ion-content class="ion-padding">
-  
- 
     <div *ngIf="rolusuario === 'pasajero'">
       <ion-buttons style="padding-top: 65px; margin-right: 30px;">
         <ion-button id="pasajero" style="margin-left: 10px;">(?)</ion-button>
@@ -33,12 +31,11 @@
           (didDismiss)="setResult($event)"
         ></ion-alert>
         <ion-button style="width: 90%;" expand="block" shape="full" fill="outline" (click)="viajesdisp()">
-          <img style="width: 300px; height: 300px;" src="../../assets/icon/images.png" alt="">
+          <img style="width: 300px; height: 300px;" src="../../assets/icon/images.png" alt="Viajes Disponibles">
         </ion-button>
       </ion-buttons>
     </div>
 
-  
     <div *ngIf="rolusuario === 'conductor'">
       <ion-buttons style="padding-top: 65px; margin-right: 30px;">
         <ion-button id="driver" style="margin-left: 10px;">(?)</ion-button>
@@ -49,7 +46,7 @@
           (didDismiss)="setResult($event)"
         ></ion-alert>
         <ion-button style="width: 90%;" expand="block" shape="full" fill="outline" (click)="programar()">
-          <img style="width: 300px; height: 300px;" src="../../assets/icon/driving-wheel--smiley.jpg" alt="">
+          <img style="width: 300px; height: 300px;" src="../../assets/icon/driving-wheel--smiley.jpg" alt="Programar Viajes">
         </ion-button>
       </ion-buttons>
     </div>
